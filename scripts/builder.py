@@ -82,6 +82,10 @@ def build_index(posts):
     index_html = index_template.replace('<!-- POSTS_PLACEHOLDER -->', post_cards)
     index_html = index_html.replace('<!-- POST_COUNT -->', str(len(posts)))
     
+    # Count unique tags
+    tag_count = len(set(p['tag'] for p in posts))
+    index_html = index_html.replace('<!-- TAG_COUNT -->', str(tag_count))
+    
     with open(os.path.join(DIST_DIR, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(index_html)
     print("Generated index.html")
