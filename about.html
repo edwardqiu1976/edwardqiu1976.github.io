@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于 Edward - Edward's Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* ===== About Page — Editorial Split ===== */
+    
+    /* Override container for full-bleed sections */
+    .about-page { padding: 0; }
+    
+    /* --- Hero: Oversized Title --- */
+    .about-hero {
+      padding: 100px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: 'ABOUT';
+      position: absolute;
+      top: -20px;
+      right: -40px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(8rem, 22vw, 20rem);
+      font-weight: 700;
+      color: rgba(230, 57, 70, 0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .about-hero-content {
+      max-width: 800px;
+    }
+    .about-hero h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 28px;
+    }
+    .about-hero h1 em {
+      font-style: italic;
+      color: #ff6b6b;
+    }
+    .about-hero .tagline {
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      font-weight: 300;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* --- Divider: Animated Line --- */
+    .about-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, #2a2a2a 20%, #e63946 50%, #2a2a2a 80%, transparent 100%);
+      margin: 0 auto;
+      max-width: 1100px;
+      opacity: 0;
+      animation: fadeSlideIn 1s ease 0.6s forwards;
+    }
+
+    /* --- Three Column Grid --- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      padding: 80px 0;
+    }
+    .about-col {
+      padding: 40px 48px;
+      border-right: 1px solid #1e1e1e;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeSlideUp 0.7s ease forwards;
+    }
+    .about-col:nth-child(1) { animation-delay: 0.8s; }
+    .about-col:nth-child(2) { animation-delay: 1.0s; }
+    .about-col:nth-child(3) { animation-delay: 1.2s; border-right: none; }
+    
+    .about-col-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #e63946;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .about-col-label::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: #e63946;
+    }
+    .about-col h3 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+      color: #f5f5f5;
+    }
+    .about-col p {
+      color: #a0a0a0;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .about-col p:last-child { margin-bottom: 0; }
+
+    /* --- Quote Block --- */
+    .about-quote {
+      background: #141414;
+      border-left: 3px solid #e63946;
+      padding: 60px 80px;
+      margin: 0;
+      position: relative;
+    }
+    .about-quote::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: rgba(230, 57, 70, 0.12);
+      position: absolute;
+      top: 10px;
+      left: 40px;
+      line-height: 1;
+    }
+    .about-quote blockquote {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.8rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: #f5f5f5;
+      max-width: 700px;
+      position: relative;
+      z-index: 1;
+    }
+    .about-quote cite {
+      display: block;
+      margin-top: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-style: normal;
+      font-size: 0.8rem;
+      color: #666;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- Timeline --- */
+    .about-timeline {
+      padding: 80px 0;
+    }
+    .about-timeline h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 48px;
+      color: #f5f5f5;
+    }
+    .timeline-list {
+      list-style: none;
+      padding: 0;
+      position: relative;
+    }
+    .timeline-list::before {
+      content: '';
+      position: absolute;
+      left: 120px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #2a2a2a;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 40px;
+      padding: 24px 0;
+      align-items: start;
+    }
+    .timeline-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #e63946;
+      text-align: right;
+      padding-top: 2px;
+      position: relative;
+    }
+    .timeline-year::after {
+      content: '';
+      position: absolute;
+      right: -25px;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e63946;
+      box-shadow: 0 0 12px rgba(230, 57, 70, 0.4);
+    }
+    .timeline-content h4 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #f5f5f5;
+      margin-bottom: 6px;
+    }
+    .timeline-content p {
+      color: #a0a0a0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* --- Footer CTA --- */
+    .about-cta {
+      text-align: center;
+      padding: 80px 0 100px;
+    }
+    .about-cta h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .about-cta h2 em {
+      font-style: italic;
+      color: #ff6b6b;
+    }
+    .about-cta p {
+      color: #a0a0a0;
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+    }
+    .about-cta-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    .about-cta-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.25s ease;
+    }
+    .about-cta-links a.primary {
+      background: #e63946;
+      color: white;
+    }
+    .about-cta-links a.primary:hover {
+      background: #ff6b6b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(230, 57, 70, 0.3);
+    }
+    .about-cta-links a.secondary {
+      background: #1e1e1e;
+      color: #f5f5f5;
+      border: 1px solid #2a2a2a;
+    }
+    .about-cta-links a.secondary:hover {
+      border-color: #ff6b6b;
+      color: #ff6b6b;
+      transform: translateY(-2px);
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeSlideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideIn {
+      to { opacity: 1; }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-col {
+        border-right: none;
+        border-bottom: 1px solid #1e1e1e;
+        padding: 32px 24px;
+      }
+      .about-col:last-child { border-bottom: none; }
+      .about-quote {
+        padding: 48px 32px;
+      }
+      .about-quote::before {
+        font-size: 5rem;
+        left: 20px;
+        top: 20px;
+      }
+      .about-quote blockquote {
+        font-size: 1.4rem;
+      }
+      .timeline-list::before { left: 16px; }
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding-left: 40px;
+      }
+      .timeline-year {
+        text-align: left;
+      }
+      .timeline-year::after {
+        left: -28px;
+        right: auto;
+      }
+      .about-hero::before {
+        font-size: 6rem;
+        right: -10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="index.html" class="logo">Edward.</a>
+      <nav>
+        <a href="index.html#posts">文章</a>
+        <a href="tags.html">标签</a>
+        <a href="about.html" class="active">关于</a>
+        <a href="index.html#newsletter">订阅</a>
+      </nav>
+    </header>
+
+    <main class="about-page">
+      <!-- Hero -->
+      <section class="about-hero">
+        <div class="about-hero-content">
+          <h1>工具塑造<em>工作方式</em>，<br>我塑造<em>工具</em></h1>
+          <p class="tagline">金融科技从业者。在 AI 与自动化的交叉口，打造高效、舒适的个人工作流。记录思考，分享探索。</p>
+        </div>
+      </section>
+
+      <div class="about-divider"></div>
+
+      <!-- Three Columns -->
+      <section class="about-grid">
+        <div class="about-col">
+          <div class="about-col-label">做什么</div>
+          <h3>AI 工作流</h3>
+          <p>不满足于"AI 帮我写了段代码"，而是重新思考每个环节：哪些该自动化，哪些该保留人味。</p>
+          <p>用 OpenClaw Agent 做迭代，用 AI 团队做研究，用 Obsidian 管知识。工具是手段，清醒是目的。</p>
+        </div>
+        <div class="about-col">
+          <div class="about-col-label">写什么</div>
+          <h3>思考与记录</h3>
+          <p>这个博客是思考的练习场。写下来的过程本身就是厘清思路的过程。</p>
+          <p>关注 AI、生产力、个人成长与生活美学。不追热点，写那些经过时间检验还有价值的东西。</p>
+        </div>
+        <div class="about-col">
+          <div class="about-col-label">信什么</div>
+          <h3>技术为人</h3>
+          <p>技术越强，人越需要保持清醒。AI 是杠杆，不是替代品。最终做决策的还是人。</p>
+          <p>追求的不是效率最大化，而是让工作流恰到好处——足够高效，留有余地。</p>
+        </div>
+      </section>
+
+      <!-- Quote -->
+      <section class="about-quote">
+        <blockquote>
+          技术越强，人越需要保持清醒。不是要抗拒变化，而是要在变化中找到自己的节奏。
+        </blockquote>
+        <cite>— Edward, 《技术越强，为什么人越需要保持清醒》</cite>
+      </section>
+
+      <!-- Timeline -->
+      <section class="about-timeline container">
+        <h2>时间线</h2>
+        <ul class="timeline-list">
+          <li class="timeline-item">
+            <span class="timeline-year">2026</span>
+            <div class="timeline-content">
+              <h4>AI 工作流实践</h4>
+              <p>用 OpenClaw + AI Agent 构建自动化工作流，从写作到运维全面整合 AI 能力。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <span class="timeline-year">2026</span>
+            <div class="timeline-content">
+              <h4>博客重启</h4>
+              <p>三步搭建：ui-ux-pro-skill 出设计稿 → Gemini 整理架构 → OpenClaw 持续迭代。AI 承担重复，人做决策。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <span class="timeline-year">2025</span>
+            <div class="timeline-content">
+              <h4>Obsidian 知识体系</h4>
+              <p>建立 P.A.R.A. 架构的个人知识库，用日记 + 永久笔记构建持续学习系统。</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- CTA -->
+      <section class="about-cta">
+        <h2>保持<em>联系</em></h2>
+        <p>如果你也对 AI 工作流、生产力工具感兴趣，欢迎交流。</p>
+        <div class="about-cta-links">
+          <a href="index.html#newsletter" class="primary">📧 订阅更新</a>
+          <a href="https://github.com/edwardqiu1976" class="secondary" target="_blank">GitHub</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="#">Twitter</a>
+        <a href="https://github.com/edwardqiu1976" target="_blank">GitHub</a>
+        <a href="feed.xml">RSS</a>
+      </div>
+      <div class="copyright">© 2026 Edward. All rights reserved.</div>
+    </footer>
+  </div>
+</body>
+</html>
