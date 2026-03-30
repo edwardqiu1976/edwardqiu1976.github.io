@@ -23,5 +23,13 @@
       <pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate>
       <category>随笔</category>
     </item>
+    <item>
+      <title>三步用 AI 搭建个人博客：从设计到部署的全流程</title>
+      <link>https://edwardqiu1976.github.io/posts/AI三步搭建个人博客.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/AI三步搭建个人博客.html</guid>
+      <description>用三个 AI 工具协作完成博客搭建——设计稿生成、结构化改造、持续迭代。这不是&quot;AI 帮我写代码&quot;，而是让 AI 各自做最擅长的事。</description>
+      <pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate>
+      <category>AI</category>
+    </item>
   </channel>
 </rss>
