@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edward's Blog - 思考与记录</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="index.html" class="logo">Edward.</a>
+      <nav>
+        <a href="#posts">文章</a>
+        <a href="#about">关于</a>
+        <a href="#newsletter">订阅</a>
+      </nav>
+    </header>
+    <section class="hero">
+      <h1>在这里记录<em>思考</em>，<br>分享<em>探索</em>与成长</h1>
+      <p>一个持续学习者的笔记空间。关注 AI、生产力、个人成长与生活美学。</p>
+    </section>
+    <section class="bento-grid" id="posts">
+      <!-- Latest featured post will be injected here if needed, 
+           for now we'll just use the grid for all posts -->
+      <!-- POSTS_PLACEHOLDER -->
+      
+      <article class="bento-item stats">
+        <div class="stat-grid">
+          <div class="stat-item"><div class="stat-number"><!-- POST_COUNT -->0</div><div class="stat-label">文章</div></div>
+          <div class="stat-item"><div class="stat-number">12</div><div class="stat-label">主题</div></div>
+        </div>
+      </article>
+
+      <article class="bento-item about" id="about">
+        <h3>关于</h3>
+        <h2>Edward</h2>
+        <p>金融科技从业者，持续探索 AI 与生产力工具的边界。相信工具塑造工作方式，致力于打造高效、舒适的个人工作流。</p>
+      </article>
+    </section>
+    <section class="newsletter" id="newsletter">
+      <h2>保持联系</h2>
+      <p>订阅更新，获取最新文章与思考</p>
+      <form class="form-group">
+        <input type="email" placeholder="你的邮箱" required>
+        <button type="submit">订阅</button>
+      </form>
+    </section>
+    <footer>
+      <div class="footer-links">
+        <a href="#">Twitter</a>
+        <a href="#">GitHub</a>
+        <a href="#">RSS</a>
+      </div>
+      <div class="copyright">© 2026 Edward. All rights reserved.</div>
+    </footer>
+  </div>
+</body>
+</html>
