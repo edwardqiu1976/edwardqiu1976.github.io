@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Edward's Blog</title>
+    <link>https://edwardqiu1976.github.io</link>
+    <description>在这里记录思考，分享探索与成长</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 30 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://edwardqiu1976.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>技术越强，为什么人越需要保持清醒</title>
+      <link>https://edwardqiu1976.github.io/posts/技术越强为什么人越需要保持清醒.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/技术越强为什么人越需要保持清醒.html</guid>
+      <description>当我们把越来越多的认知任务交给技术，我们似乎正在失去某种更本质的东西。技术越强大，人类越需要保持清醒。</description>
+      <pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate>
+      <category>思考</category>
+    </item>
+    <item>
+      <title>开启我的个人博客</title>
+      <link>https://edwardqiu1976.github.io/posts/hello-world.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/hello-world.html</guid>
+      <description>这是我的第一篇博客文章。使用 GitHub Actions 自动构建，让写作更专注。</description>
+      <pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate>
+      <category>随笔</category>
+    </item>
+  </channel>
+</rss>
