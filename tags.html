@@ -3,33 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><!-- POST_TITLE --> - Edward's Blog</title>
+  <title>标签 - Edward's Blog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <div class="container">
     <header>
-      <a href="../index.html" class="logo">Edward.</a>
+      <a href="index.html" class="logo">Edward.</a>
       <nav>
-        <a href="../index.html#posts">文章</a>
-        <a href="../tags.html">标签</a>
-        <a href="../index.html#about">关于</a>
+        <a href="index.html#posts">文章</a>
+        <a href="tags.html" class="active">标签</a>
+        <a href="index.html#about">关于</a>
       </nav>
     </header>
-    
-    <main class="article-content">
-      <a href="../index.html" class="back-link">← 返回首页</a>
-      <h3><!-- POST_TAG --></h3>
-      <h1><!-- POST_TITLE --></h1>
-      <div class="meta">
-        <span><!-- POST_DATE --></span>
+
+    <main class="tags-page">
+      <h1 class="tags-title">所有标签</h1>
+      <p class="tags-subtitle">共 <!-- TAG_COUNT --> 个标签，<!-- POST_COUNT --> 篇文章</p>
+
+      <!-- TAG PILLS -->
+      <div class="tag-pills">
+        <!-- TAG_PILLS_PLACEHOLDER -->
       </div>
-      
-      <div class="content-body">
-        <!-- POST_CONTENT -->
+
+      <!-- TAG GROUPS -->
+      <div class="tag-groups">
+        <!-- TAG_GROUPS_PLACEHOLDER -->
       </div>
     </main>
 
@@ -37,6 +39,7 @@
       <div class="footer-links">
         <a href="#">Twitter</a>
         <a href="#">GitHub</a>
+        <a href="#">RSS</a>
       </div>
       <div class="copyright">© 2026 Edward. All rights reserved.</div>
     </footer>
