@@ -3,6 +3,9 @@ import re
 import markdown
 import frontmatter
 from datetime import datetime
+from html import escape as html_escape
+from email.utils import formatdate
+import time
 
 # Path configuration
 POSTS_DIR = 'posts'
@@ -142,9 +145,58 @@ def build_tags(posts):
         f.write(tags_html)
     print(f"Generated tags.html ({len(sorted_tags)} tags)")
 
+def build_feed(posts):
+    SITE_URL = 'https://edwardqiu1976.github.io'
+    items = ""
+    for post in posts[:20]:  # RSS 标准：最多 20 条
+        # 日期转 RFC 2822 格式
+        date_str = str(post['date'])
+        try:
+            dt = datetime.strptime(date_str, '%Y-%m-%d')
+            pub_date = formatdate(time.mktime(dt.timetuple()), localtime=True)
+        except ValueError:
+            pub_date = formatdate(time.time(), localtime=True)
+        
+        items += f"""    <item>
+      <title>{html_escape(post['title'])}</title>
+      <link>{SITE_URL}/posts/{html_escape(post['filename'])}</link>
+      <guid isPermaLink="true">{SITE_URL}/posts/{html_escape(post['filename'])}</guid>
+      <description>{html_escape(post['excerpt'])}</description>
+      <pubDate>{pub_date}</pubDate>
+      <category>{html_escape(post['tag'])}</category>
+    </item>
+"""
+    
+    # 最新文章日期作为 lastBuildDate
+    if posts:
+        try:
+            dt = datetime.strptime(str(posts[0]['date']), '%Y-%m-%d')
+            last_build = formatdate(time.mktime(dt.timetuple()), localtime=True)
+        except ValueError:
+            last_build = formatdate(time.time(), localtime=True)
+    else:
+        last_build = formatdate(time.time(), localtime=True)
+
+    feed = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Edward's Blog</title>
+    <link>{SITE_URL}</link>
+    <description>在这里记录思考，分享探索与成长</description>
+    <language>zh-CN</language>
+    <lastBuildDate>{last_build}</lastBuildDate>
+    <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
+{items}  </channel>
+</rss>"""
+
+    with open(os.path.join(DIST_DIR, 'feed.xml'), 'w', encoding='utf-8') as f:
+        f.write(feed)
+    print(f"Generated feed.xml ({len(posts[:20])} items)")
+
 if __name__ == "__main__":
     setup_dist()
     all_posts = get_posts()
     build_posts(all_posts)
     build_index(all_posts)
     build_tags(all_posts)
+    build_feed(all_posts)
