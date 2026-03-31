@@ -145,17 +145,54 @@ def build_tags(posts):
         f.write(tags_html)
     print(f"Generated tags.html ({len(sorted_tags)} tags)")
 
-def build_about():
-    """Copy the standalone about.html to dist."""
+def build_about(posts):
+    """Build about.html with auto-generated timeline from posts."""
     src = 'about.html'
-    if os.path.exists(src):
-        with open(src, 'r', encoding='utf-8') as f:
-            html = f.read()
+    if not os.path.exists(src):
+        print("about.html not found, skipping")
+        return
+
+    with open(src, 'r', encoding='utf-8') as f:
+        html = f.read()
+
+    if '<!-- TIMELINE_PLACEHOLDER -->' not in html:
+        print("about.html has no TIMELINE_PLACEHOLDER, copying as-is")
         with open(os.path.join(DIST_DIR, 'about.html'), 'w', encoding='utf-8') as f:
             f.write(html)
-        print("Generated about.html")
-    else:
-        print("about.html not found, skipping")
+        return
+
+    # Group posts by year
+    from collections import OrderedDict
+    year_groups = OrderedDict()
+    for post in posts:
+        date_str = str(post['date'])
+        year = date_str[:4] if len(date_str) >= 4 else '未知'
+        if year not in year_groups:
+            year_groups[year] = []
+        year_groups[year].append(post)
+
+    # Generate timeline HTML
+    timeline_items = ""
+    for year, year_posts in year_groups.items():
+        for post in year_posts:
+            date_str = str(post['date'])
+            timeline_items += f"""          <li class="timeline-item">
+            <span class="timeline-year">{date_str}</span>
+            <div class="timeline-content">
+              <h4><a href="posts/{post['filename']}">{post['title']}</a></h4>
+              <p>{post['excerpt'][:80]}{'...' if len(post['excerpt']) > 80 else ''}</p>
+            </div>
+          </li>
+"""
+
+    timeline_html = f"""<ul class="timeline-list">
+{timeline_items}        </ul>"""
+
+    html = html.replace('<!-- TIMELINE_PLACEHOLDER -->', timeline_html)
+
+    with open(os.path.join(DIST_DIR, 'about.html'), 'w', encoding='utf-8') as f:
+        f.write(html)
+    print(f"Generated about.html (timeline: {len(posts)} posts)")
 
 def build_feed(posts):
     SITE_URL = 'https://edwardqiu1976.github.io'
@@ -212,4 +249,4 @@ if __name__ == "__main__":
     build_index(all_posts)
     build_tags(all_posts)
     build_feed(all_posts)
-    build_about()
+    build_about(all_posts)
