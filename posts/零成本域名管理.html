@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>零成本域名管理：从注册到自动化的全流程实践 - Edward's Blog</title>
+  <title>让AI替我管域名：一次人机协作的实操记录 - Edward's Blog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -24,140 +24,70 @@
     <main class="article-content">
       <a href="../index.html" class="back-link">← 返回首页</a>
       <h3>技术实践</h3>
-      <h1>零成本域名管理：从注册到自动化的全流程实践</h1>
+      <h1>让AI替我管域名：一次人机协作的实操记录</h1>
       <div class="meta">
         <span>2026-03-31</span>
       </div>
       
       <div class="content-body">
-        <h1>零成本域名管理：从注册到自动化的全流程实践</h1>
+        <h1>让 AI 替我管域名：一次人机协作的实操记录</h1>
 <blockquote>
-<p>免费注册子域名、免费解析托管、免费自动化续期提醒——踩坑记录全公开。</p>
+<p>我提需求，AI 执行，我做决策。半天时间，不花一分钱，搭了一套域名管理系统。但真正值得记录的不是结果，而是过程中学到的东西。</p>
 </blockquote>
 <hr />
-<h2>为什么折腾这个</h2>
-<p>我一直想整理自己的域名——不花钱那种。</p>
-<p>买域名不贵，<code>.com</code> 一年也就几十块。但问题是：你买了一个之后，会想买第二个、第三个。等回过神来，域名池里躺着七八个，有的已经忘了当初为什么要注册，续费时又舍不得放弃。年复一年，这笔钱就默默流走了。</p>
-<p>这次我决定换个思路：找免费的。</p>
-<p>免费域名服务不少，但大多数要么注册完就没人管了，要么管理界面反人类。直到我发现了一个叫 DNSHE 的服务——它提供免费子域名，根域名覆盖好几个区域，有效期最长能到 10 年。</p>
-<p>配合 Cloudflare 的免费 DNS 解析，正好搭一套完整的域名管理体系。</p>
-<p>整个过程从下午搞到晚上，踩了不少坑，但最终效果还挺满意的。下面把完整流程拆开讲。</p>
+<h2>起因</h2>
+<p>我手里有几个域名。买的时候热血沸腾，觉得"这个以后肯定用得上"。结果呢？大部分都在吃灰。</p>
+<p><code>.com</code> 一年几十块，看起来不多。但架不住数量多——等你回过神来，每年续费已经在默默烧钱了。</p>
+<p>这次我想换个思路：找免费的子域名服务，注册一批，管好解析，自动化续期提醒。</p>
+<p>思路不复杂，执行全是细节：API 调试、密钥管理、DNS 配置、自动化脚本、安全加固。这些活儿有个共同特征——<strong>规则明确，重复性高，适合 AI 做</strong>。</p>
+<p>于是我把这个任务扔给了 OpenClaw Agent。</p>
 <hr />
-<h2>第一步：理解架构</h2>
-<p>先说清楚整体方案，不然中间容易绕晕。</p>
-<p>核心思路是 <strong>双层架构</strong>：</p>
-<p>| 层级 | 工具 | 职责 |
-|------|------|------|
-| 注册层 | DNSHE | 子域名注册、续期、生命周期管理 |
-| 解析层 | Cloudflare | DNS 解析、CDN 加速、安全防护 |</p>
-<p>DNSHE 管"拥有"，Cloudflare 管"对外服务"。各司其职，互不干扰。</p>
-<p>这有什么好处？以后如果想换解析服务商，DNSHE 那边不用动；DNSHE 那边的免费政策变了，Cloudflare 的解析记录也不受影响。解耦就是自由。</p>
+<h2>方案：两个免费工具，各司其职</h2>
+<p>整个系统用两个服务搭成，一个管注册，一个管解析。</p>
+<p><strong>DNSHE</strong> 负责子域名的注册、续期和生命周期管理。它提供免费子域名，根域名覆盖好几个区域，有效期最长十年。管的是"这个域名归你"。</p>
+<p><strong>Cloudflare</strong> 负责 DNS 解析、CDN 加速和安全防护。免费方案就支持全部常见记录类型，对个人项目来说是天花板级别。管的是"别人怎么找到你"。</p>
+<p>这两层解耦的好处很简单：以后想换解析服务商，DNSHE 不用动；DNSHE 的免费政策变了，Cloudflare 的解析记录也不受影响。</p>
+<p>各司其职，互不干扰。</p>
 <hr />
-<h2>第二步：Cloudflare API 配置</h2>
-<p>很多人用 Cloudflare 只是为了 CDN 加速，但它的 DNS 管理 API 才是真正值得深挖的能力。要通过脚本自动化操作，第一步是创建 API Token。</p>
-<p>登录 Cloudflare Dashboard → My Profile → API Tokens → Create Custom Token。权限按需分配：</p>
-<p>| 权限 | 用途 |
-|------|------|
-| Zone:Read | 读取域名信息 |
-| DNS:Edit | 管理 DNS 记录 |
-| Workers:Edit | 管理 Workers（后续扩展用） |
-| D1/KV/R2 读写 | 边缘存储操作 |</p>
-<p>拿到 Token 后，一个 curl 验证连通性：</p>
-<p><code>bash
-curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
-  "https://api.cloudflare.com/client/v4/zones" | jq '.result[].name'</code></p>
-<p>如果返回了你的域名列表，说明 Token 没问题。Cloudflare 的 DNS 解析是免费的，支持 A/AAAA/CNAME/MX/TXT 全部常见记录类型，还有 DNSSEC、DNS 防火墙等高级功能。对个人项目来说，这就是免费的天花板了。</p>
-<hr />
-<h2>第三步：DNSHE 子域名注册</h2>
-<h3>它是什么</h3>
-<p>DNSHE 提供免费子域名注册，根域名覆盖全球多个区域：</p>
+<h2>我提需求，AI 做执行</h2>
+<h3>第一步：让 Agent 验证 API 连通</h3>
+<p>我把 Cloudflare 的 API Token 和 DNSHE 的 API Key 交给 Agent，让它自己写 curl 命令验证。它很快跑通了 Cloudflare，但在 DNSHE 上卡住了——直接返回 401。</p>
+<p>我只给了 API Key，没给 API Secret。Agent 翻了半天 API 文档，怀疑是 URL 写错了、权限不够、参数格式有问题。折腾了好一会儿，它才注意到文档里写着：<strong>API Key + API Secret，双密钥认证。</strong></p>
+<p>这个教训很朴素：双密钥认证的服务，两个都得给。单给一个不会报"缺少 Secret"，而是直接 401——这个错误信息太暧昧了，容易把排查方向带偏。</p>
+<p>补上 Secret，Agent 一口气注册了几个子域名。</p>
+<h3>第二步：让 Agent 封装自动化 Skill</h3>
+<p>光有 API 还不够。每次操作都翻文档、拼 curl，效率太低。</p>
+<p>我让 Agent 把 DNSHE 的常用操作封装成一个管理 Skill：</p>
 <ul>
-<li><code>ccwu.cc</code> — 华人常用</li>
-<li><code>us.ci</code> — 美属维尔京群岛</li>
-<li><code>cn.mt</code> — 马耳他</li>
-<li><code>cn.bi</code> — 布隆迪</li>
+<li>自动续期——检查到期时间，单个或批量续期</li>
+<li>DNS 记录管理——A/AAAA/CNAME/MX/TXT 增删改查</li>
+<li>注册新子域名——检查可用根域名，注册后自动配 DNS</li>
+<li>Cloudflare 联动——DNSHE 和 Cloudflare 之间的同步脚本</li>
 </ul>
-<p>有效期分 360 天和 3600 天两档，到期可以续期。3600 天就是将近 10 年，注册一次基本不用担心短期过期。</p>
-<h3>API 连通踩坑</h3>
-<p>DNSHE 提供 API Key + API Secret 的双密钥认证。我踩的第一个坑：一开始只给了 Key 没给 Secret，请求直接 401 失败。补上 Secret 后才正常：</p>
-<p><code>bash
-curl -s "https://api.dnshe.com/v1/subdomains&amp;action=list" \
-  -H "X-Api-Key: $DNSHE_API_KEY" \
-  -H "X-Api-Secret: $DNSHE_API_SECRET"</code></p>
-<p>这个教训很朴素：<strong>双密钥认证的服务，两个都得给</strong>。单给一个不会报"缺少 Secret"，而是直接 401，容易误导你怀疑别的地方出了问题。</p>
-<h3>注册流程</h3>
-<p>注册新子域名的流程不复杂：先查可用根域名，再提交注册请求，最后配置 DNS 解析。但手动操作太原始，后面我会讲怎么用脚本自动化。</p>
+<p>以后再需要管理域名，直接跟 Agent 说一声就行，不用记 API 地址和参数了。</p>
+<h3>第三步：续期提醒</h3>
+<p>免费域名最大的风险就是忘了续期。我让 Agent 设了定时提醒：有效期短的域名在到期前 180 天通知，有效期长的也按同样标准来。到时间了自动推送，不用自己惦记。</p>
 <hr />
-<h2>第四步：从手动到自动化</h2>
-<p>光有 API 还不够，得把常用操作封装成可复用的工具。我把 DNSHE 的管理功能整理成四个模块：</p>
-<p>| 功能模块 | 说明 |
-|----------|------|
-| 自动续期 | 检查到期时间 + 单个/批量续期 |
-| DNS 记录管理 | A/AAAA/CNAME/MX/TXT 增删改查 |
-| 注册新子域名 | 检查可用根域名 + 注册 + 自动配 DNS |
-| Cloudflare 联动 | DNSHE ↔ Cloudflare 同步脚本 |</p>
-<p>每个模块的实现其实不复杂，核心就是 curl + jq。但把这些逻辑沉淀成文档和脚本之后，以后再操作就不需要翻 API 文档了。</p>
-<hr />
-<h2>第五步：密钥安全——别把钥匙挂门上</h2>
-<p>这一节单独拎出来讲，因为这可能是整个实践中最重要的教训。</p>
-<h3>问题</h3>
-<p>最初我把 API Key 和 Token 明文写在了一个工作文档里——这个文件每次对话都会被加载到 AI 的上下文里，等于把钥匙挂在门上，谁都能看见。</p>
-<h3>解决方案</h3>
-<p>采用 <code>.env</code> + <code>.gitignore</code> 的经典方案：</p>
+<h2>踩的最大的坑：密钥安全</h2>
+<p>这可能是整个实践中最重要的教训。</p>
+<p>Agent 最初把 API Key 和 Token 明文写在了一个工作文档里。这个文件每次对话都会被加载到 AI 的上下文里——<strong>等于把钥匙挂在门上，谁都能看见。</strong></p>
+<p>我发现了这个问题，立刻让 Agent 整改。四步走：</p>
 <ol>
-<li>
-<p><strong>新建 <code>.env</code></strong>：集中存放所有密钥
-   <code>bash
-   CF_API_TOKEN=your_token_here
-   CF_ACCOUNT_ID=your_account_id_here
-   DNSHE_API_KEY=your_key_here
-   DNSHE_API_SECRET=your_secret_here</code></p>
-</li>
-<li>
-<p><strong>新建 <code>.gitignore</code></strong>：排除 <code>.env</code>，防止误提交到 git</p>
-</li>
-<li>
-<p><strong>所有文档中的密钥替换为环境变量引用</strong>：<code>$CF_API_TOKEN</code>、<code>$DNSHE_API_KEY</code> 等</p>
-</li>
-<li>
-<p><strong>全盘扫描清理残留</strong>：确保没有遗漏的明文 key</p>
-</li>
+<li>新建 <code>.env</code> 文件，集中存放所有密钥，不进任何对话上下文</li>
+<li>新建 <code>.gitignore</code>，排除 <code>.env</code>，防止误提交到 git</li>
+<li>所有文档中的密钥替换为环境变量引用</li>
+<li>全盘扫描，清理残留的明文 key</li>
 </ol>
-<h3>经验总结</h3>
-<blockquote>
-<p>API 密钥不应该出现在任何会被加载到 AI 对话上下文的文件中。<code>.env</code> + <code>.gitignore</code> 是最轻量且有效的方案——密钥只存在于本地文件，不进 git，不进 AI 上下文。</p>
-</blockquote>
-<p>以后用任何需要 API Key 的服务，<strong>第一时间就做这个安全设置</strong>。别等出了问题再补。</p>
+<p><strong>密钥不该出现在任何会被加载到 AI 对话上下文的文件里</strong>——这是这次踩坑后最深的一条体会。<code>.env</code> + <code>.gitignore</code> 是最轻量且有效的方案：密钥只存在于本地文件，不进 git，不进 AI 上下文。以后用任何需要 API Key 的服务，第一时间就做这个安全设置。别等出了问题再补。</p>
 <hr />
-<h2>第六步：续期提醒——别让域名悄悄过期</h2>
-<p>免费域名最大的风险就是忘了续期。</p>
-<p>我的处理方式是设了两个定时提醒：有效期短的域名（360 天）在到期前 180 天提醒，有效期长的（3600 天）也按提前 180 天的标准来。到时间了自动推送通知，不用自己惦记。</p>
-<p>360 天的域名差不多注册后半年就要开始关注了，节奏还挺紧凑的。</p>
-<hr />
-<h2>复盘：踩了哪些坑</h2>
-<p>| 坑 | 教训 |
-|----|------|
-| API Key 只给了一个，没给 Secret | 双密钥认证两个都要，别漏 |
-| 密钥明文写进文档 | <code>.env</code> + <code>.gitignore</code> 是标准姿势 |
-| DNSHE API 偶尔 502 | 免费服务不稳定，需要容错设计 |
-| 没有搞清部署流程就操作 | 先看文档和架构，再动手 |</p>
-<hr />
-<h2>总结</h2>
-<p>整套方案的成本是 <strong>零</strong>。</p>
-<p>| 项目 | 费用 |
-|------|------|
-| DNSHE 子域名注册 | 免费 |
-| Cloudflare DNS 解析 | 免费 |
-| 自动化脚本（自己写） | 免费 |
-| 续期提醒（Cron） | 免费 |</p>
-<p>四个关键经验：</p>
-<ol>
-<li><strong>双层架构</strong>：注册和解析分开，各司其职，降低耦合</li>
-<li><strong>密钥安全</strong>：<code>.env</code> + <code>.gitignore</code>，别把钥匙挂门上</li>
-<li><strong>自动化优先</strong>：能用脚本解决的就别手动记</li>
-<li><strong>免费的天花板</strong>：Cloudflare 免费 DNS + DNSHE 免费子域名 = 零成本域名管理</li>
-</ol>
-<p>如果你也有几个域名在手里吃灰，不妨试试这个思路。零成本试错，最坏的结果也不过是浪费一个下午。</p>
+<h2>回头来看</h2>
+<p>整套方案的成本是零——DNSHE 免费注册，Cloudflare 免费解析，脚本自己写，续期提醒用 Cron。</p>
+<p>但比成本更重要的是过程中暴露的几个问题：</p>
+<p><strong>AI 会犯错，但错误是有意义的。</strong> 401 那个坑，如果是我手动操作，可能也会踩。但 Agent 翻文档排查的过程让我意识到，错误信息的设计是个大问题——一个模糊的 401 能把排查方向带偏半天。</p>
+<p><strong>AI 会犯"习惯性错误"。</strong> 把密钥写进文档这件事，Agent 并不是故意的——它只是习惯性地把所有信息记录在最容易找到的地方。但这个习惯在安全场景下是致命的。人类有安全直觉，AI 没有。所以安全判断这件事，必须人来做。</p>
+<p><strong>自动化不是目的，是手段。</strong> 封装 Skill、设续期提醒，这些不是为了让系统更复杂，而是为了让以后的操作更简单。今天多花半小时写脚本，以后每次操作省十分钟。这笔账算得过来。</p>
+<p>最关键的体会是四个字：<strong>人机分工。</strong></p>
+<p>架构设计、安全判断、取舍权衡——这是人的活儿。curl 命令、脚本编写、批量操作——这是 AI 的活儿。谁也别抢谁的活儿。</p>
 <hr />
 <p><em>写于 2026 年 3 月 31 日</em></p>
       </div>
