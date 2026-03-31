@@ -40,7 +40,7 @@ def get_posts():
                 'date': post.get('date', datetime.now().strftime('%Y-%m-%d')),
                 'tag': post.get('tag', '文章'),
                 'excerpt': post.get('excerpt', post.content[:100] + '...'),
-                'content': markdown.markdown(post.content),
+                'content': markdown.markdown(post.content, extensions=['tables', 'fenced_code']),
                 'slug': slug,
                 'filename': f"{slug}.html"
             })
