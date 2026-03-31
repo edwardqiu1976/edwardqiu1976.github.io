@@ -30,6 +30,8 @@ jobs:
           python scripts/builder.py
           # Copy assets to dist folder
           cp -r assets dist/
+          # Copy CNAME to dist for custom domain
+          cp CNAME dist/ || true
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
