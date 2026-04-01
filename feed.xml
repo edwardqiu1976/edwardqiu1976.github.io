@@ -5,8 +5,16 @@
     <link>https://edwardqiu1976.github.io</link>
     <description>在这里记录思考，分享探索与成长</description>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 31 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://edwardqiu1976.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>零成本搭建临时邮箱服务：一次有趣的实践</title>
+      <link>https://edwardqiu1976.github.io/posts/零成本搭建临时邮箱服务.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/零成本搭建临时邮箱服务.html</guid>
+      <description>注册网站不想用真实邮箱？临时邮箱可以帮你规避营销邮件和泄露风险。这篇文章记录了我自己搭建临时邮箱服务的过程和踩坑经历。</description>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <category>技术</category>
+    </item>
     <item>
       <title>让AI替我管域名：一次人机协作的实操记录</title>
       <link>https://edwardqiu1976.github.io/posts/零成本域名管理.html</link>

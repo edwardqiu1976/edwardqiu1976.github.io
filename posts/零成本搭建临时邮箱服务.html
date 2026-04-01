@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>零成本搭建临时邮箱服务：一次有趣的实践 - Edward's Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="alternate" type="application/rss+xml" title="Edward's Blog" href="../feed.xml">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="../index.html" class="logo">Edward.</a>
+      <nav>
+        <a href="../index.html#posts">文章</a>
+        <a href="../tags.html">标签</a>
+        <a href="../index.html#about">关于</a>
+      </nav>
+    </header>
+    
+    <main class="article-content">
+      <a href="../index.html" class="back-link">← 返回首页</a>
+      <h3>技术</h3>
+      <h1>零成本搭建临时邮箱服务：一次有趣的实践</h1>
+      <div class="meta">
+        <span>2026-04-01</span>
+      </div>
+      
+      <div class="content-body">
+        <h1>零成本搭建临时邮箱服务：一次有趣的实践</h1>
+<p><strong>日期</strong>：2026-04-01<br />
+<strong>技术栈</strong>：Cloudflare Workers、Temp-Mail API</p>
+<hr />
+<h2>为什么要自己搭建临时邮箱？</h2>
+<p>注册一个网站账号，网站要求填写邮箱——这大概是每个网民都逃不过的场景。</p>
+<p>用真实邮箱？后续等待你的，是源源不断的营销邮件、验证码轰炸、还有不知道什么时候就被泄露到暗网的风险。</p>
+<p>不用？抱歉，大部分网站根本不允许跳过这一步。</p>
+<p>临时邮箱就是为这个场景诞生的。市面上存在不少临时邮箱服务，但体验过的朋友都知道：要么几分钟就过期，要么广告满屏飞，要么写着写着突然就挂了。你永远不知道它什么时候会突然抛弃你。</p>
+<p>作为一个能自己托管在 Cloudflare Workers 上的开发者，我合计了一下：Cloudflare Workers 本身免费且稳定，Temp-Mail 有现成的 API，自己做一个似乎也不是什么难题。</p>
+<p>说干就干。</p>
+<hr />
+<h2>过程与踩坑</h2>
+<h3>第一步：研究 API</h3>
+<p>临时邮箱的原理并不复杂：生成一个随机邮箱地址代人收信，所有发到这个地址的邮件会被转发到一个管理后台，用户随时可以查看。</p>
+<p>先把 Temp-Mail API 的文档翻了一遍，了解了域名配置、邮件获取、删除等核心接口。心里大概有底了。</p>
+<h3>第二步：封装成 skill</h3>
+<p>既然以后可能还会用到，不如一次性封装成一个可复用的 skill。下次再用时，几分钟就能部署上线，不用从头折腾。</p>
+<p>这个 skill 包含了 Cloudflare Workers 脚手架、Temp-Mail API 集成、以及管理员后台的基本功能。</p>
+<h3>第三步：第一次部署踩坑</h3>
+<p>兴冲冲部署上线，分配了一个测试域名，信心满满。</p>
+<p>测试发邮件——</p>
+<p><strong>0 封。</strong></p>
+<p>排查了半小时，终于定位到问题：域名配置错误。不是所有域名都适合接收邮件，选错了域名，整个服务就是摆设。</p>
+<p>这大概是这类服务最容易被忽视的一个点：你以为配置好了，其实邮件压根到不了。</p>
+<h3>第四步：换域名重试</h3>
+<p>这回选了一个验证过能收邮件的域名，重新部署。</p>
+<p>用管理员账号登录查看——竟然发现有历史邮件。看来这服务之前有人用过，一直在线跑着。</p>
+<p>发一封测试邮件，这次顺利收到了。</p>
+<hr />
+<h2>一些体会</h2>
+<p>这次实践下来，有几点感受：</p>
+<ol>
+<li><strong>域名配置是生死线</strong>——看似简单的配置，选错了就完全用不了</li>
+<li><strong>小工具很有用</strong>——临时邮箱这种看似不起眼的东西，实际场景中能省很多麻烦</li>
+<li><strong>自动化会让人上瘾</strong>——把部署流程封装成 skill 之后，下次再用只需要几分钟，这种感觉用过就回不去了</li>
+<li><strong>测试真的很重要</strong>——不要自信到跳过测试步骤（说的就是我）</li>
+</ol>
+<hr />
+<h2>相关工具</h2>
+<ul>
+<li>Cloudflare Workers: https://workers.cloudflare.com/</li>
+</ul>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://github.com/edwardqiu1976" target="_blank">GitHub</a>
+        <a href="../feed.xml">RSS</a>
+      </div>
+      <div class="copyright">© 2026 Edward. All rights reserved.</div>
+    </footer>
+  </div>
+</body>
+</html>
