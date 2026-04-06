@@ -5,8 +5,16 @@
     <link>https://edwardqiu1976.github.io</link>
     <description>在这里记录思考，分享探索与成长</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 05 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://edwardqiu1976.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>我用费曼学习法把一个&quot;晦涩&quot;的决策算法，改造成了每天都能用的工具</title>
+      <link>https://edwardqiu1976.github.io/posts/我用费曼学习法把EKB决策算法改造成每天都能用的工具.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/我用费曼学习法把EKB决策算法改造成每天都能用的工具.html</guid>
+      <description>EKB就是三个东西的组合：E期望值告诉你什么值得做，K凯利公式告诉你该做多少，B贝叶斯更新告诉你做错了怎么改。大部分人不是输在没有优势，而是输在有优势的时候下注太多。</description>
+      <pubDate>Mon, 06 Apr 2026 00:00:00 +0000</pubDate>
+      <category>思考</category>
+    </item>
     <item>
       <title>我终于搞懂了斯多葛：它根本不是教你冷漠</title>
       <link>https://edwardqiu1976.github.io/posts/我终于搞懂了斯多葛.html</link>
