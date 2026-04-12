@@ -5,8 +5,16 @@
     <link>https://edwardqiu1976.github.io</link>
     <description>在这里记录思考，分享探索与成长</description>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 06 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://edwardqiu1976.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>我用AI给我的知识库造了一个&quot;记忆引擎&quot;</title>
+      <link>https://edwardqiu1976.github.io/posts/我用AI给我的知识库造了一个记忆引擎.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/我用AI给我的知识库造了一个记忆引擎.html</guid>
+      <description>我让AI帮我做了一个系统——把我散落在各个角落的信息，自动整理成一套可以追根溯源的个人知识库。整个过程我只做了三件事：提出想法、确认内容、点击发布。</description>
+      <pubDate>Sun, 12 Apr 2026 00:00:00 +0000</pubDate>
+      <category>思考</category>
+    </item>
     <item>
       <title>我用费曼学习法把一个&quot;晦涩&quot;的决策算法，改造成了每天都能用的工具</title>
       <link>https://edwardqiu1976.github.io/posts/我用费曼学习法把EKB决策算法改造成每天都能用的工具.html</link>
