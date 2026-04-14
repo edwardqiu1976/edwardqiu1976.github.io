@@ -5,8 +5,16 @@
     <link>https://edwardqiu1976.github.io</link>
     <description>在这里记录思考，分享探索与成长</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 12 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://edwardqiu1976.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hermes Agent vs OpenClaw 横纵分析法深度研究报告</title>
+      <link>https://edwardqiu1976.github.io/posts/hermes-agent-vs-openclaw横纵分析法深度研究报告.html</link>
+      <guid isPermaLink="true">https://edwardqiu1976.github.io/posts/hermes-agent-vs-openclaw横纵分析法深度研究报告.html</guid>
+      <description>两者都是开源自托管的AI助手，但在核心理念上分属两个不同的产品哲学极端——Hermes是&quot;围绕学习代理构建网关&quot;的agent-first系统，OpenClaw是&quot;围绕消息网关构建代理&quot;的gateway-first助手平台。</description>
+      <pubDate>Tue, 14 Apr 2026 00:00:00 +0000</pubDate>
+      <category>AI Agent,开源,横纵分析</category>
+    </item>
     <item>
       <title>我用AI给我的知识库造了一个&quot;记忆引擎&quot;</title>
       <link>https://edwardqiu1976.github.io/posts/我用AI给我的知识库造了一个记忆引擎.html</link>
